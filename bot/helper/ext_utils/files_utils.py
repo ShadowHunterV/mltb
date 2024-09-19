@@ -115,6 +115,7 @@ def exit_clean_up(signal, frame):
 async def clean_unwanted(path, custom_list=None):
     if custom_list is None:
         custom_list = []
+    custom_list.extend(['[TGx]Downloaded from torrentgalaxy.to .txt'])
     LOGGER.info(f"Cleaning unwanted files/folders: {path}")
     for dirpath, _, files in await sync_to_async(walk, path, topdown=False):
         for filee in files:
