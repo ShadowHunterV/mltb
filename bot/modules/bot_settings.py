@@ -300,6 +300,12 @@ async def edit_variable(_, message, pre_message, key):
         for x in fx:
             x = x.lstrip(".")
             global_extension_filter.append(x.strip().lower())
+    elif key == "EXCLUDED_FILES":
+        fx = value.split()
+        EXCLUDED_FILES = []
+        for x in fx:
+            EXCLUDED_FILES.append(x.strip().lower())
+        config_dict['EXCLUDED_FILES'] = EXCLUDED_FILES
     elif key == "GDRIVE_ID":
         if drives_names and drives_names[0] == "Main":
             drives_ids[0] = value
@@ -994,6 +1000,13 @@ async def load_config():
             if x.strip().startswith("."):
                 x = x.lstrip(".")
             global_extension_filter.append(x.strip().lower())
+    
+    EXCLUDED_FILES = environ.get("EXCLUDED_FILES", "")
+    if len(EXCLUDED_FILES) > 0:
+        fx = EXCLUDED_FILES.split()
+        EXCLUDED_FILES = []
+        for x in fx:
+            EXCLUDED_FILES.append(x.strip().lower())
 
     JD_EMAIL = environ.get("JD_EMAIL", "")
     JD_PASS = environ.get("JD_PASS", "")
@@ -1235,6 +1248,7 @@ async def load_config():
             "DOWNLOAD_DIR": DOWNLOAD_DIR,
             "EQUAL_SPLITS": EQUAL_SPLITS,
             "EXTENSION_FILTER": EXTENSION_FILTER,
+            "EXCLUDED_FILES": EXCLUDED_FILES,
             "FILELION_API": FILELION_API,
             "GDRIVE_ID": GDRIVE_ID,
             "INCOMPLETE_TASK_NOTIFIER": INCOMPLETE_TASK_NOTIFIER,

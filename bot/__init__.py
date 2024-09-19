@@ -257,6 +257,13 @@ if len(EXTENSION_FILTER) > 0:
         x = x.lstrip(".")
         global_extension_filter.append(x.strip().lower())
 
+EXCLUDED_FILES = environ.get("EXCLUDED_FILES", "")
+if len(EXCLUDED_FILES) > 0:
+    fx = EXCLUDED_FILES.split()
+    EXCLUDED_FILES = []
+    for x in fx:
+        EXCLUDED_FILES.append(x.strip().lower())
+
 JD_EMAIL = environ.get("JD_EMAIL", "")
 JD_PASS = environ.get("JD_PASS", "")
 if len(JD_EMAIL) == 0 or len(JD_PASS) == 0:
@@ -435,6 +442,7 @@ config_dict = {
     "DOWNLOAD_DIR": DOWNLOAD_DIR,
     "EQUAL_SPLITS": EQUAL_SPLITS,
     "EXTENSION_FILTER": EXTENSION_FILTER,
+    "EXCLUDED_FILES": EXCLUDED_FILES,
     "FILELION_API": FILELION_API,
     "GDRIVE_ID": GDRIVE_ID,
     "INCOMPLETE_TASK_NOTIFIER": INCOMPLETE_TASK_NOTIFIER,

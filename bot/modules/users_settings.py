@@ -166,6 +166,12 @@ async def get_user_settings(from_user):
         ex_ex = global_extension_filter
     else:
         ex_ex = "None"
+    
+    buttons.data_button("Excluded Files", f"userset {user_id} ex_files")
+    if user_dict.get("excluded_files", False):
+        ex_files = user_dict["excluded_files"]
+    else:
+        ex_files = "None"
 
     ns_msg = "Added" if user_dict.get("name_sub", False) else "None"
     buttons.data_button("Name Subtitute", f"userset {user_id} name_substitute")
@@ -204,6 +210,7 @@ Stop Duplicate is <b>{sd_msg}</b>
 Default Upload is <b>{du}</b>
 Name substitution is <b>{ns_msg}</b>
 Excluded Extensions is <code>{ex_ex}</code>
+Excluded Files is <code>{ex_files}</code>
 YT-DLP Options is <b><code>{escape(ytopt)}</code></b>"""
 
     return text, buttons.build_menu(1)
@@ -295,6 +302,11 @@ async def set_option(_, message, pre_event, option):
         value = ["aria2", "!qB"]
         for x in fx:
             x = x.lstrip(".")
+            value.append(x.strip().lower())
+    elif option == "excluded_files":
+        fx = value.split()
+        value = []
+        for x in fx:
             value.append(x.strip().lower())
     elif option == "upload_paths":
         user_dict = user_data.get(user_id, {})
@@ -394,6 +406,7 @@ async def edit_user_settings(client, query):
         "lprefix",
         "index_url",
         "excluded_extensions",
+        "excluded_files",
         "name_sub",
         "thumb_layout",
     ]:
@@ -774,6 +787,25 @@ Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp
             buttons.build_menu(1),
         )
         pfunc = partial(set_option, pre_event=query, option="excluded_extensions")
+        await event_handler(client, query, pfunc)
+    elif data[2] == "ex_files":
+        await query.answer()
+        buttons = ButtonMaker()
+        if (
+            user_dict.get("excluded_files", False)
+            or "excluded_files" not in user_dict
+        ):
+            buttons.data_button(
+                "Remove Excluded Files", f"userset {user_id} excluded_files"
+            )
+        buttons.data_button("Back", f"userset {user_id} back")
+        buttons.data_button("Close", f"userset {user_id} close")
+        await edit_message(
+            message,
+            "Send excluded files seperated by space. Timeout: 60 sec",
+            buttons.build_menu(1),
+        )
+        pfunc = partial(set_option, pre_event=query, option="excluded_files")
         await event_handler(client, query, pfunc)
     elif data[2] == "name_substitute":
         await query.answer()
