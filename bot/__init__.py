@@ -259,7 +259,7 @@ if len(EXTENSION_FILTER) > 0:
 
 EXCLUDED_FILES = environ.get("EXCLUDED_FILES", "")
 if len(EXCLUDED_FILES) > 0:
-    fx = EXCLUDED_FILES.split()
+    fx = EXCLUDED_FILES.split(',')
     EXCLUDED_FILES = []
     for x in fx:
         EXCLUDED_FILES.append(x.strip().lower())

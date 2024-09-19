@@ -304,7 +304,7 @@ async def set_option(_, message, pre_event, option):
             x = x.lstrip(".")
             value.append(x.strip().lower())
     elif option == "excluded_files":
-        fx = value.split()
+        fx = value.split(',')
         value = []
         for x in fx:
             value.append(x.strip().lower())
@@ -802,7 +802,7 @@ Check all yt-dlp api options from this <a href='https://github.com/yt-dlp/yt-dlp
         buttons.data_button("Close", f"userset {user_id} close")
         await edit_message(
             message,
-            "Send excluded files seperated by space. Timeout: 60 sec",
+            "Send excluded files seperated by <code>,<code>. Timeout: 60 sec",
             buttons.build_menu(1),
         )
         pfunc = partial(set_option, pre_event=query, option="excluded_files")

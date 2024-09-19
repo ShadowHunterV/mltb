@@ -301,7 +301,7 @@ async def edit_variable(_, message, pre_message, key):
             x = x.lstrip(".")
             global_extension_filter.append(x.strip().lower())
     elif key == "EXCLUDED_FILES":
-        fx = value.split()
+        fx = value.split(',')
         EXCLUDED_FILES = []
         for x in fx:
             EXCLUDED_FILES.append(x.strip().lower())
@@ -1003,7 +1003,7 @@ async def load_config():
     
     EXCLUDED_FILES = environ.get("EXCLUDED_FILES", "")
     if len(EXCLUDED_FILES) > 0:
-        fx = EXCLUDED_FILES.split()
+        fx = EXCLUDED_FILES.split(',')
         EXCLUDED_FILES = []
         for x in fx:
             EXCLUDED_FILES.append(x.strip().lower())
