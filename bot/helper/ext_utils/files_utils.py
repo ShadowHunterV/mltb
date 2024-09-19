@@ -123,6 +123,7 @@ async def clean_unwanted(path, custom_list=None):
             if (
                 filee.endswith(".!qB")
                 or f_path in custom_list
+                or filee in custom_list
                 or filee.endswith(".parts")
                 and filee.startswith(".")
             ):
