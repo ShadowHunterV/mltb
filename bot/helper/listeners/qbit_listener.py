@@ -68,6 +68,7 @@ async def _on_download_complete(tor):
     ext_hash = tor.hash
     tag = tor.tags
     if task := await get_task_by_gid(ext_hash[:12]):
+        await clean_unwanted(download.dir)
         if not task.listener.seed:
             await sync_to_async(
                 qbittorrent_client.torrents_pause, torrent_hashes=ext_hash

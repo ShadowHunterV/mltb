@@ -94,6 +94,7 @@ async def _on_bt_download_complete(api, gid):
     await sleep(1)
     download = await sync_to_async(api.get_download, gid)
     LOGGER.info(f"onBtDownloadComplete: {download.name} - Gid: {gid}")
+    await clean_unwanted(download.dir)
     if task := await get_task_by_gid(gid):
         task.listener.is_torrent = True
         if task.listener.select:
